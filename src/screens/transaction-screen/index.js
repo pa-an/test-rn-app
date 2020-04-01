@@ -1,9 +1,10 @@
-import React, { useEffect, useState, useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { FlatList, StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import { observer } from 'mobx-react-lite'
 import moment from 'moment'
 
 import { useStores } from '../../models/root-store'
+import { LoadingOverlay } from '../../components'
 
 const styles = StyleSheet.create({
   item: {
@@ -68,7 +69,7 @@ const Item = observer(({ item }) => {
 
 export default observer(() => {
   const {
-    transactionStore: { transactionsData, getTransactions, updateTransactions },
+    transactionStore: { transactionsData, getTransactions, updateTransactions, isLoadingListTransaction },
   } = useStores()
 
   const refunded = useRef(true)
@@ -88,6 +89,7 @@ export default observer(() => {
 
   return (
     <>
+      <LoadingOverlay isLoading={isLoadingListTransaction} />
       <TouchableOpacity style={styles.btnRefund} onPress={handleRefundAll}>
         <Text>REFUND ALL</Text>
       </TouchableOpacity>
